@@ -27,13 +27,14 @@ export const forgetPassword = async (req, res,next) => {
        const token= jwt.sign(payload,secret, { expiresIn: '30m' });
 
        // create link to reset password
-        const link = `http://localhost:3000/resetpassword/${user.id}/${token}`;
+       const localLink='http://localhost:3000'
+        const link = `${process.env.RESET_LINK || localLink }/resetpassword/${user.id}/${token}`;
         
         // send email to user with link
         
         await sendMail(user.email,link);
 
-        return res.json({status:true, msg: 'Email has been sent' });
+        return res.status(200).json({status:true, msg: 'Email has been sent'}); 
     } catch (error) {
           next(error);
       

@@ -39,7 +39,15 @@ export const signup = async (req, res,next) => {
         try {
             const savedUser = await newUser.save();
             delete savedUser.password;
-            return res.status(200).json({status:true,newUser});
+            const payload = {
+                user: {
+                    id: newUser._id
+                }
+            }
+            
+           const token= jwt.sign(payload, process.env.JWT_SECRET , { expiresIn: 3600 });
+     
+           return res.status(200).json({status:true,token,newUser,msg:"register success",accessToken:token});
         } catch (error) {
             return res.status(400).json({ status:false, msg: 'User name or email are not valid' });
         }
@@ -70,7 +78,8 @@ export const login = async (req, res,next) => {
           }
           
          const token= jwt.sign(payload, process.env.JWT_SECRET , { expiresIn: 3600 });
-         return res.header('auth-token', token).json({status:true, user });
+   
+         return res.status(200).json({status:true,token,user,msg:"login success",accessToken:token});
       } catch (error) {
             next(error);
         

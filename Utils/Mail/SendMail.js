@@ -12,7 +12,7 @@ const transport =nodemailer.createTransport({
        pass:process.env.MAIL_PASSWORD
    }
    ,
-   port:465,
+   port:465, 
    host : 'smtp.gmail.com',
 }
 );

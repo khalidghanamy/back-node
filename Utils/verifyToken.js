@@ -1,35 +1,34 @@
 import jwt from 'jsonwebtoken';
-import { CreateError } from '../errorCreator/error.js';
 
-export const verifyToken =
-     (req, res, next) => {
+export const verifyToken = (req, res, next) => {
 
-        const token = req.cookies.access_token
+        const token = req.headers.authorization;
+        console.log(req.headers);
         if (!token) {
-            return next(CreateError(401, "No token provided"))
+            return res.status(401).json({status:false,msg:"Login first"});
         }
         
         jwt.verify(token, process.env.JWT_SECRET,(err,user)=>{
             if(err){
-                return next(CreateError(401, "Invalid token"))
+                return res.status(401).json({status:false,msg:"Invalid token"});
             }
                 req.user = user.user
-                next()
+                return next();
              })
       
 
     }
 
 
-export const verifyUser =
-     (req, res, next) => {
+export const verifyUser = (req, res, next) => {
+    
          verifyToken(req, res, ()=> {
-            if(req.user.id == req.params.id){
+            if(req.user.id == req.params.userId){
                 next()
             }
             else{
                 
-                return next(CreateError(401, "Unauthorized"))
+                return res.status(401).json({status:false,msg:"user is not verified"});
             }
     
         })

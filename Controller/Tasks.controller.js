@@ -41,10 +41,11 @@ export const createTask = async (req, res,next) => {
 
 
 export const getTasks = async (req, res,next) => {
-    
+
     const {userId} = req.params;
         try{
             //check if user exist in database
+            
         await checkUser(req,res,next);
             //get tasks
             const tasks = await User.findById(userId).populate("tasks");
