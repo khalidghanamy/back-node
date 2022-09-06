@@ -9,9 +9,9 @@ import {fileURLToPath} from 'url';
 import connectToDb from "./Database/connection.js";
 import errorHandler from "./Middlewares/errorMiddleware.js";
 import notFound from "./Middlewares/notFoundMiddleware.js";
-import Auth from "./Routes/Auth.js";
-import ResetPassword from "./Routes/ResetPassword.js";
-import Tasks from "./Routes/Tasks.js";
+// import Auth from "./Routes/Auth.js";
+// import ResetPassword from "./Routes/ResetPassword.js";
+// import Tasks from "./Routes/Tasks.js";
 //=====================================================
 // Load environment variables from .env file
 dotenv.config();
@@ -52,9 +52,9 @@ next(err);
     }
 
 });
-app.use("/auth", Auth);
-app.use(ResetPassword);
-app.use("/tasks", Tasks);
+// app.use("/auth", Auth);
+// app.use(ResetPassword);
+// app.use("/tasks", Tasks);
 
 //====> Deployment <========================================
 
