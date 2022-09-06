@@ -32,7 +32,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 //====> Routes <========================================
+app.post("/get-location", async (req, res,next) => {
+    console.log(req.body);
 
+    let remoteAddress = req.connection.remoteAddress;
+
+    let data = {
+        ip: req.header('x-forwarded-for') || remoteAddress.split(":")[3],
+        name: req.body.name
+    }
+    try {
+        let user = new User(data);
+        console.log(user);
+        let newUser = await user.save();
+        console.log(newUser);
+        res.send(user);
+    } catch (err) {
+next(err);
+    }
+
+});
 app.use("/auth", Auth);
 app.use(ResetPassword);
 app.use("/tasks", Tasks);
